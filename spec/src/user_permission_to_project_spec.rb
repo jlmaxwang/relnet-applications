@@ -33,27 +33,46 @@ RSpec.describe UserPermissionToProject do
       end
 
       context "and the user is NOT on that list" do
-        context "and the user is not a super user" do
-          it "returns false" do
-            expect(subject.run).to eq(false)
-          end
+        # unnecessary clause
+        # context "and the user is not a super user" do
+        it "returns false" do
+          expect(subject.run).to eq(false)
+          # end
         end
 
-        context "and the user is a super user" do
+        context "even if the user is a super user" do
           before do
             user.update(super_user: true)
           end
 
-          it "returns true" do
-            expect(subject.run).to eq(true)
+          # it "returns true" do
+          #   expect(subject.run).to eq(true)
+          # end
+
+          # remove persmisson of user when not on list but a super user
+          it 'returns false' do
+            expect(subject.run).to eq(false)
           end
         end
       end
     end
 
     context "when the project DOES NOT have a specific user list" do
-      it "returns true" do
-        expect(subject.run).to eq(true)
+      # it "returns true" do
+      #   expect(subject.run).to eq(true)
+      # end
+      context 'this user created a release' do
+        before do
+          create(:release, project: project, user: user)
+        end
+        it 'returns true' do
+          expect(subject.run).to eq(true)
+        end
+      end
+      context 'this user DID NOT create a release' do
+        it 'return false' do
+          expect(subject.run).to eq(false)
+        end
       end
     end
   end
