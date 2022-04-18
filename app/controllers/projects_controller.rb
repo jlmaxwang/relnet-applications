@@ -23,6 +23,8 @@ class ProjectsController < ProjectsBaseController
       team: current_user.team,
       public_feed: params[:visibility] == 'Public'
     )
+    # assign project to author user
+    ProjectUser.create(project: project, user: current_user)
 
     flash[:success] = 'Project created'
     return redirect_to dashboard_path
