@@ -33,11 +33,10 @@ RSpec.describe UserPermissionToProject do
       end
 
       context "and the user is NOT on that list" do
-        # unnecessary clause
-        # context "and the user is not a super user" do
+        context "and the user is NOT a super user" do
         it "returns false" do
           expect(subject.run).to eq(false)
-          # end
+          end
         end
 
         context "even if the user is a super user" do
@@ -69,6 +68,7 @@ RSpec.describe UserPermissionToProject do
           expect(subject.run).to eq(true)
         end
       end
+
       context 'this user DID NOT create a release' do
         it 'return false' do
           expect(subject.run).to eq(false)
